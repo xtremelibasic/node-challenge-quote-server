@@ -5,6 +5,9 @@
 const express = require("express");
 const lodash = require("lodash");
 const app = express();
+var cors = require('cors');
+
+app.use(cors())
 
 //load the quotes JSON
 const quotes = require("./quotes.json");
@@ -23,7 +26,7 @@ app.get("/", function (request, response) {
 app.get("/quotes", (request,response) => response.send(quotes))
 
 //Returning one quote
-app.get("/quotes/random", (request, response) => response.send(pickFromArray(quotes)))
+app.get("/quotes/random", (request, response) => response.send(lodash.sample(quotes)))
 
 //Search handler
 app.get("/quotes/search", (request,response) => {
@@ -47,6 +50,6 @@ function pickFromArray(arr) {
 }
 
 //Start our server so that it listens for HTTP requests!
-const listener = app.listen(process.env.PORT, function () {
+const listener = app.listen(5000, function () {
   console.log("Your app is listening on port " + listener.address().port);
 });
